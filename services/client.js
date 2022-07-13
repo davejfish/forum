@@ -4,4 +4,13 @@ const SUPABASE_KEY =
 
 export const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-//Shan added supabase hookups
+
+//marty has this in his code so I added it not sure if it will be useful
+export function checkResponse({ error, data }) {
+    if (error) {
+        //eslint-disable-next-line no-console
+        console.log(error);
+        return null;
+    }
+    return data;
+}
