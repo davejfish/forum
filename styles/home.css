@@ -1,0 +1,88 @@
+.form-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 3px #EAC4D5;
+    background-color: #B8E0D2;
+    padding: 5px;
+    margin: 10px;
+}
+
+.form-post label {
+    display: contents;
+    text-align: center;
+    margin: 5px;
+}
+
+.form-post button {
+    margin: 5px;
+}
+
+.form-post label textarea {
+    width: 350px;
+    height: 100px;
+    background-color: #95B8D1;
+}
+
+.posts-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 500px));
+    grid-gap: 10px;
+    background-color: #D6EADF;
+    margin-bottom: 50px;
+    padding: 10px;
+}
+
+.posts {
+    display: grid;
+    grid-template-areas:
+        'image username date'
+        'post post post';
+    grid-template-columns: 40px 250px 1fr;
+    border: solid 3px #EAC4D5;
+    background-color: #B8E0D2;
+}
+
+.image {
+    display: grid;
+    grid-area: image;
+    height: 30px;
+    width: 30px;
+    border: solid 1px black;
+    border-radius: 50%;
+    background-size: cover;
+    background-color: #95B8D1;
+}
+
+.username {
+    display: grid;
+    grid-area: username;
+    align-items: center;
+}
+
+.date {
+    display: grid;
+    grid-area: date;
+    text-align: end;
+    align-items: center;
+}
+
+.post {
+    display: grid;
+    grid-area: post;
+    margin-left: 10px;
+}
