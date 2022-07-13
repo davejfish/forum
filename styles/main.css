@@ -8,7 +8,8 @@ body {
     height: 100%;
     padding-bottom: 30px;
     font-family: 'Rubik', san-serif;
-    background: var(--background);
+    background: #809BCE;
+    ;
 }
 
 header {
@@ -16,7 +17,7 @@ header {
     top: 0;
     display: flex;
     align-items: center;
-    background-color: var(--header-background);
+    background-color: #EAC4D5;
 }
 
 #user {
@@ -28,7 +29,7 @@ header {
 
 #user a {
     font-size: .8em;
-    color:steelblue;
+    color: steelblue;
 }
 
 .hidden {
@@ -47,5 +48,5 @@ footer {
     padding: 10px;
     display: flex;
     justify-content: flex-end;
-    background-color: var(--footer-background);
+    background-color: #EAC4D5;
 }
