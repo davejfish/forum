@@ -43,6 +43,8 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 500px));
     grid-gap: 10px;
     background-color: #D6EADF;
+    margin-bottom: 50px;
+    padding: 10px;
 }
 
 .posts {
@@ -50,6 +52,7 @@
     grid-template-areas:
         'image username date'
         'post post post';
+    grid-template-columns: 40px 250px 1fr;
     border: solid 3px #EAC4D5;
     background-color: #B8E0D2;
 }
@@ -59,19 +62,27 @@
     grid-area: image;
     height: 30px;
     width: 30px;
+    border: solid 1px black;
+    border-radius: 50%;
+    background-size: cover;
+    background-color: #95B8D1;
 }
 
 .username {
     display: grid;
     grid-area: username;
+    align-items: center;
 }
 
 .date {
     display: grid;
     grid-area: date;
+    text-align: end;
+    align-items: center;
 }
 
 .post {
     display: grid;
     grid-area: post;
+    margin-left: 10px;
 }
