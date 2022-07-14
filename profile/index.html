@@ -20,27 +20,28 @@
 <body>
     <header>
         <a href="/"><img src="../assets/html_css_js.png"></a>
-        <h1>Cool Web App</h1>
+        <h1>super cool chat place</h1>
         <div id="user"></div>
+        <a href="/">home</a>
     </header>
 
     <main>
         <section class="profile-creation">
-            <from class="profile-form">
+            <form class="profile-form">
                 <label>
                     name:
-                    <input name="name">
+                    <input id="username" name="name">
                 </label>
                 <label>
                     avatar:
-                    <input type="file" name="avatar">
+                    <input type="file" id="file-input" name="avatar">
                 </label>
                 <label>
                     image preview:
-                    <img class="avatar-preview" src="../assets/pink.png">
+                    <img class="avatar-preview" src="../assets/yellow.png">
                 </label>
                 <button>submit</button>
-            </from>
+            </form>
         </section>
 
     </main>
