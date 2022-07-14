@@ -61,7 +61,7 @@ export async function getPosts() {
         .select(`
         *, 
         profiles (*)`)
-        .order('created_at', { ascecnding: false })
+        .order('created_at', { ascending: false })
         .limit(15);
 
     return checkResponse(response);
