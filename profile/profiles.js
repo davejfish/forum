@@ -1,4 +1,4 @@
-import { getUser, signOut } from '../services/auth-service.js';
+import { getProfile, getUser, signOut, updateProfile, uploadAvatar } from '../services/auth-service.js';
 import { protectPage } from '../utils.js';
 import createUser from '../components/User.js';
 import createUpsertProfile from '../components/upsertProfiles.js';
@@ -12,6 +12,8 @@ async function handlePageLoad() {
     user = getUser();
     protectPage(user);
 
+    state.profiles = await getProfile();
+
     display();
 }
 
@@ -19,9 +21,20 @@ async function handleSignOut() {
     signOut();
 }
 
-async function handleUpsertProfile(username, avatar) {
-    // eslint-disable-next-line no-console
-    console.log(`update or insert ${username} with avatar: ${avatar}`);
+async function handleUpsertProfile({ username, avatar }) {
+    let url = '';
+    if (avatar.size) {
+        url = await uploadAvatar(user.id, avatar);
+    }
+
+    const update = {
+        id: user.id,
+        username,
+    };
+
+    if (url) update.avatar = url;
+
+    state.profiles = await updateProfile(update);
 }
 
 // Components 
@@ -34,7 +47,7 @@ const UpsertProfile = createUpsertProfile(document.querySelector('.profile-form'
 
 function display() {
     User({ user });
-    UpsertProfile({ profile: state.profiles });
+    UpsertProfile();
 }
 
 handlePageLoad();
