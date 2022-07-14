@@ -1,12 +1,12 @@
-import { addPost, getPosts, getProfile, getUser, signOut } from './services/auth-service.js';
+import { addPost, getPosts, getProfile, getUser, signOut, targetPosts } from './services/auth-service.js';
 import { protectPage } from './utils.js';
 import createUser from './components/User.js';
-import state from './state.js';
 import createPosts from './components/postObject.js';
 import createPost from './components/createPost.js';
 
 // State
 let user = null;
+import state from './state.js';
 
 // Action Handlers
 async function handlePageLoad() {
@@ -15,8 +15,10 @@ async function handlePageLoad() {
 
     state.profiles = await getProfile();
     state.posts = await getPosts();
-
-
+    targetPosts(post => {
+        state.posts.unshift(post);
+        display();
+    });
 
     display();
 }

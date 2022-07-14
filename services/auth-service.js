@@ -83,7 +83,7 @@ export async function getProfileById(id) {
         return users.get(id);
     }
 
-    const { data, error } = await client.from('profiles').select('*').eq('user_id', id).single();
+    const { data, error } = await client.from('profiles').select('*').eq('id', id).single();
 
     if (error) {
         //eslint-disable-next-line no-console
@@ -95,15 +95,11 @@ export async function getProfileById(id) {
     return data;
 }
 
-
 export function targetPosts(listener) {
     client.from('posts').on('INSERT', async (payload) => {
         const post = payload.new;
-        const user = await getProfileById(post.profiles.user_id);
-        post.name = user;
+        const user = await getProfileById(post.profile_id);
+        post.profiles = user;
         listener(post);
-    })
-        .subscribe();
+    }).subscribe();
 }
-
-//adding comment for new push
