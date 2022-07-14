@@ -20,8 +20,7 @@ export async function signOut() {
 //find User on the profiles table
 export async function getProfile() {
     const user = getUser();
-
-    const response = await client.from('profiles').select().eq('id', user.id);
+    const response = await client.from('profiles').select().eq('user_id', user.id);
 
     const rows = checkResponse(response);
     return rows[0] || null;
@@ -43,14 +42,15 @@ export async function uploadAvatar(userId, imageFile) {
         return null;
     }
 
-    const url = bucket.getPublicUrl(data.Key.replace(`${BUCKET_NAME}/`, '')).getPublicUrl;
+    const url = bucket.getPublicUrl(data.Key.replace(`${BUCKET_NAME}/`, '')).publicURL;
 
     return url;
 }
 
 //allow users to update their own profile data
 export async function updateProfile(profile) {
-    const response = await client.from('profiles').upsert(profile).eq('id', profile.id).single();
+
+    const response = await client.from('profiles').upsert(profile).eq('user_id', profile.user_id).single();
 
     return checkResponse(response);
 }
