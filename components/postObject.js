@@ -10,7 +10,6 @@ export default function createPosts(div) {
 }
 
 function Post({ post }) {
-    console.log(post)
     const div = document.createElement('div');
     div.classList.add('posts');
 
