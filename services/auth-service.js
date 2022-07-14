@@ -54,3 +54,24 @@ export async function updateProfile(profile) {
 
     return checkResponse(response);
 }
+
+export async function getPosts() {
+    const response = await client
+        .from('posts')
+        .select(`
+        *, 
+        profiles (*)`)
+        .order('created_at', { ascending: false })
+        .limit(15);
+
+    return checkResponse(response);
+}
+
+export async function addPost(content) {
+    const response = await client
+        .from('posts')
+        .insert(content)
+        .single();
+
+    return checkResponse(response);
+}
