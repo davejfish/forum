@@ -49,12 +49,16 @@ export async function uploadAvatar(userId, imageFile) {
 
 //allow users to update their own profile data
 export async function updateProfile(profile) {
+    console.log(profile);
+    if (profile) {
+        const response = await client.from('profiles').update(profile).eq('user_id', profile.user_id).single();
+        return checkResponse(response);
+    }
 
-    const response = await client.from('profiles').upsert(profile).eq('user_id', profile.user_id).single();
+    const response2 = await client.from('profiles').insert(profile).single();
+    return checkResponse(response2);
 
-    return checkResponse(response);
 }
-
 export async function getPosts() {
     const response = await client
         .from('posts')
