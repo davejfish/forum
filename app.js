@@ -16,6 +16,8 @@ async function handlePageLoad() {
     state.profiles = await getProfile();
     state.posts = await getPosts();
 
+
+
     display();
 }
 
@@ -26,9 +28,12 @@ async function handleSignOut() {
 async function handleAddPost(content) {
     const postToAdd = {
         content,
+        profile_id: state.profiles.id
     };
 
-    state.posts.unshift(await addPost(postToAdd));
+    await addPost(postToAdd);
+
+    display();
 }
 
 // Components 

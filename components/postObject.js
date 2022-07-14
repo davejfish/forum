@@ -24,8 +24,7 @@ function Post({ post }) {
 
     const date = document.createElement('span');
     date.classList.add('date');
-    date.textContent = post.String(post.created_at);
-
+    date.textContent = new Date(post.created_at).toLocaleDateString();
     const postContent = document.createElement('p');
     postContent.classList.add('post');
     postContent.textContent = post.content;
