@@ -47,13 +47,25 @@ export async function uploadAvatar(userId, imageFile) {
     return url;
 }
 
+async function inProfiles(user_id) {
+    const response = await client
+        .from('profiles')
+        .select('user_id');
+
+    for (let i of response.body) {
+        if (i.user_id === user_id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 //allow users to update their own profile data
 export async function updateProfile(profile) {
-    console.log(profile);
 
-    let userId = await client.from('Users').read('UID');
-    console.log(userId);
-    if (profile) {
+    const result = await inProfiles(profile.user_id);
+
+    if (result) {
         const response = await client.from('profiles').update(profile).eq('user_id', profile.user_id).single();
         return checkResponse(response);
     }
