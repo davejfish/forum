@@ -3,6 +3,7 @@ import { enforceProfile, protectPage } from './utils.js';
 import createUser from './components/User.js';
 import createPosts from './components/postObject.js';
 import createPost from './components/createPost.js';
+import createPaging from './components/Paging.js';
 
 // State
 let user = null;
@@ -40,6 +41,23 @@ async function handleAddPost(content) {
     display();
 }
 
+//handle paging function
+function handlePaging(change, size) {
+    //get params
+    const params = new URLSearchParams(window.location.search);
+
+    if (Number(size) === state.pageSize) {
+        state.page = Math.max(1, state.page + change);
+    }
+    else {
+        state.page = 1;
+    }
+
+    params.set('page', state.page);
+    params.set('pageSize', size);
+    window.location.search = params.toString();
+}
+
 // Components 
 const User = createUser(
     document.querySelector('#user'),
@@ -49,10 +67,13 @@ const User = createUser(
 const PostObject = createPosts(document.querySelector('.auto-grid'));
 const CreatePost = createPost(document.querySelector('.form-post'), handleAddPost);
 
+const Paging = createPaging(document.querySelector('.posts-section'), { handlePaging });
+
 function display() {
     User({ user });
     CreatePost();
     PostObject({ posts: state.posts });
+    Paging({ page: state.page, totalPages: state.totalPages });
 
 }
 
