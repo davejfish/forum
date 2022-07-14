@@ -1,5 +1,5 @@
 import { addPost, getPosts, getProfile, getUser, signOut, targetPosts } from './services/auth-service.js';
-import { protectPage } from './utils.js';
+import { enforceProfile, protectPage } from './utils.js';
 import createUser from './components/User.js';
 import createPosts from './components/postObject.js';
 import createPost from './components/createPost.js';
@@ -14,6 +14,8 @@ async function handlePageLoad() {
     protectPage(user);
 
     state.profiles = await getProfile();
+    enforceProfile(state.profiles);
+
     state.posts = await getPosts();
     targetPosts(post => {
         state.posts.unshift(post);
