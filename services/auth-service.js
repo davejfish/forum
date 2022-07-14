@@ -75,3 +75,35 @@ export async function addPost(content) {
 
     return checkResponse(response);
 }
+
+const users = new Map();
+
+export async function getProfileById(id) {
+    if (users.has(id)) {
+        return users.get(id);
+    }
+
+    const { data, error } = await client.from('profiles').select('*').eq('user_id', id).single();
+
+    if (error) {
+        //eslint-disable-next-line no-console
+        console.log(error);
+        return null;
+    }
+
+    users.set(id, data);
+    return data;
+}
+
+
+export function targetPosts(listener) {
+    client.from('posts').on('INSERT', async (payload) => {
+        const post = payload.new;
+        const user = await getProfileById(post.profiles.user_id);
+        post.name = user;
+        listener(post);
+    })
+        .subscribe();
+}
+
+//adding comment for new push
