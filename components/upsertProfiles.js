@@ -1,6 +1,6 @@
 export default function createUpsertProfile(form, handleUpsertProfile) {
 
-
+    const nameInput = document.querySelector('#username');
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -24,7 +24,12 @@ export default function createUpsertProfile(form, handleUpsertProfile) {
         previewImage.src = URL.createObjectURL(file);
     });
 
-    return () => {
-
+    return ({ profiles }) => {
+        if (profiles) {
+            const username = profiles.name;
+            const avatar = profiles.avatar;
+            if (username) nameInput.value = username;
+            if (avatar) previewImage.src = avatar;
+        }
     };
 }

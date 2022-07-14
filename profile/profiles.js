@@ -28,13 +28,15 @@ async function handleUpsertProfile({ username, avatar }) {
     }
 
     const update = {
-        id: user.id,
-        username,
+        user_id: user.id,
+        name: username,
     };
 
     if (url) update.avatar = url;
 
     state.profiles = await updateProfile(update);
+
+    location.assign('/');
 }
 
 // Components 
@@ -47,7 +49,7 @@ const UpsertProfile = createUpsertProfile(document.querySelector('.profile-form'
 
 function display() {
     User({ user });
-    UpsertProfile();
+    UpsertProfile({ profiles: state.profiles });
 }
 
 handlePageLoad();
