@@ -13,11 +13,22 @@ import state from './state.js';
 async function handlePageLoad() {
     user = getUser();
     protectPage(user);
-
+    
     state.profiles = await getProfile();
     enforceProfile(state.profiles);
 
-    state.posts = await getPosts();
+    const params = new URLSearchParams(window.location.search);
+
+    state.page = Number(params.get('page')) || 1;
+    state.pageSize = Number(params.get('pageSize')) || 5;
+
+    const start = (state.page - 1) * state.pageSize;
+    const end = (state.page * state.pageSize) - 1;
+
+    const response = await getPosts({ start, end });
+    state.posts = response.data;
+    state.totalPages = Math.ceil(response.count / state.pageSize);
+
     targetPosts(post => {
         state.posts.unshift(post);
         display();
@@ -71,10 +82,9 @@ const Paging = createPaging(document.querySelector('.posts-section'), { handlePa
 
 function display() {
     User({ user });
+    Paging({ page: state.page, totalPages: state.totalPages });
     CreatePost();
     PostObject({ posts: state.posts });
-    Paging({ page: state.page, totalPages: state.totalPages });
-
 }
 
 handlePageLoad();
