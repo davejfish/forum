@@ -1,4 +1,6 @@
-export default function createPaging(root, { handlePaging }) {
+import state from '../state.js';
+
+export default function createPaging(root, { handlePaging, handleFirstLast }) {
     const pageInfo = root.querySelector('.page-info');
     const [first, prev, next, last] = root.querySelectorAll('button');
 
@@ -11,11 +13,11 @@ export default function createPaging(root, { handlePaging }) {
     });
 
     first.addEventListener('click', () => {
-        handlePaging(-999, 5);
+        handleFirstLast(1, 5);
     });
 
     last.addEventListener('click', () => {
-        handlePaging();
+        handleFirstLast(state.totalPages, 5);
     });
 
     return ({ page, totalPages }) => {

@@ -69,6 +69,16 @@ function handlePaging(change, size) {
     window.location.search = params.toString();
 }
 
+function handleFirstLast(page, size) {
+    const params = new URLSearchParams(window.location.search);
+
+    state.page = page;
+    params.set('page', state.page);
+    params.set('pageSize', size);
+
+    window.location.search = params.toString();
+}
+
 // Components 
 const User = createUser(
     document.querySelector('#user'),
@@ -78,7 +88,7 @@ const User = createUser(
 const PostObject = createPosts(document.querySelector('.auto-grid'));
 const CreatePost = createPost(document.querySelector('.form-post'), handleAddPost);
 
-const Paging = createPaging(document.querySelector('.posts-section'), { handlePaging });
+const Paging = createPaging(document.querySelector('.posts-section'), { handlePaging, handleFirstLast });
 
 function display() {
     User({ user });
