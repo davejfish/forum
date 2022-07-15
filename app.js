@@ -13,11 +13,22 @@ import state from './state.js';
 async function handlePageLoad() {
     user = getUser();
     protectPage(user);
-
+    
     state.profiles = await getProfile();
     enforceProfile(state.profiles);
 
-    state.posts = await getPosts();
+    const params = new URLSearchParams(window.location.search);
+
+    state.page = Number(params.get('page')) || 1;
+    state.pageSize = Number(params.get('pageSize')) || 5;
+
+    const start = (state.page - 1) * state.pageSize;
+    const end = (state.page * state.pageSize) - 1;
+
+    const response = await getPosts({ start, end });
+    state.posts = response.data;
+    state.totalPages = Math.ceil(response.count / state.pageSize);
+
     targetPosts(post => {
         state.posts.unshift(post);
         display();
@@ -58,6 +69,16 @@ function handlePaging(change, size) {
     window.location.search = params.toString();
 }
 
+function handleFirstLast(page, size) {
+    const params = new URLSearchParams(window.location.search);
+
+    state.page = page;
+    params.set('page', state.page);
+    params.set('pageSize', size);
+
+    window.location.search = params.toString();
+}
+
 // Components 
 const User = createUser(
     document.querySelector('#user'),
@@ -67,14 +88,13 @@ const User = createUser(
 const PostObject = createPosts(document.querySelector('.auto-grid'));
 const CreatePost = createPost(document.querySelector('.form-post'), handleAddPost);
 
-const Paging = createPaging(document.querySelector('.posts-section'), { handlePaging });
+const Paging = createPaging(document.querySelector('.posts-section'), { handlePaging, handleFirstLast });
 
 function display() {
     User({ user });
+    Paging({ page: state.page, totalPages: state.totalPages });
     CreatePost();
     PostObject({ posts: state.posts });
-    Paging({ page: state.page, totalPages: state.totalPages });
-
 }
 
 handlePageLoad();

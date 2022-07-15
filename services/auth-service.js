@@ -74,16 +74,21 @@ export async function updateProfile(profile) {
     return checkResponse(response2);
 
 }
-export async function getPosts() {
-    const response = await client
+
+export async function getPosts({ start, end }) {
+    let response = client
         .from('posts')
         .select(`
         *, 
-        profiles (*)`)
-        .order('created_at', { ascending: false })
-        .limit(15);
+        profiles (*)`,
+        { count: 'exact' })
+        .limit(5)
+        .order('created_at', { ascending: false });
 
-    return checkResponse(response);
+    response = response.range(start, end);
+
+    const query = await response;
+    return query;
 }
 
 export async function addPost(content) {
