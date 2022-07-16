@@ -1,10 +1,16 @@
+import state from '../state.js';
+
 export default function createPosts(div) {
     return ({ posts }) => {
         div.innerHTML = '';
+        let i = 1;
 
         for (const post of posts) {
             const item = Post({ post });
             div.append(item);
+            i++;
+
+            if (i > state.pageSize) return;
         }
     };
 }

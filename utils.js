@@ -16,6 +16,12 @@ export function enforceRedirect(profile) {
     }
 }
 
+export async function enforceProfile(profile) {
+    if (!profile) {
+        location.replace('./profile/index.html');
+    }
+}
+
 export function getRedirect() {
     const redirectUrl = encodeURIComponent(location.href);
     return `?redirectUrl=${redirectUrl.toString()}`;
